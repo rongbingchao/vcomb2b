@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心动表白墙 - 说出你的爱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #1a1a2e;
+            position: relative;
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            background: linear-gradient(135deg, #ff6b9d, #feca57, #ff6b9d);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .header p {
+            color: #a0a0c0;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255, 107, 157, 0.2);
+        }
+
+        .form-section h2 {
+            color: #ff6b9d;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #c0c0e0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff6b9d, #ee5a6f);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .wall-section h2 {
+            text-align: center;
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .wall-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .love-note {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid rgba(255, 107, 157, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-note::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 157, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .love-note:hover::before {
+            left: 100%;
+        }
+
+        .love-note:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 107, 157, 0.5);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.2);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .note-author {
+            color: #ff6b9d;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .note-heart {
+            font-size: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .note-content {
+            color: #d0d0f0;
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+
+        .note-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .note-time {
+            color: #707090;
+            font-size: 12px;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #ff6b9d;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #606080;
+        }
+
+        .empty-state .emoji {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            animation: floatUp 3s ease-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>✨ 心动表白墙 ✨</h1>
+            <p>勇敢说出心里的话</p>
+        </div>
+
+        <div class="form-section">
+            <h2>💌 写下你的告白</h2>
+            <div class="form-group">
+                <label for="nickname">你的昵称</label>
+                <input type="text" id="nickname" placeholder="给自己起个名字吧">
+            </div>
+            <div class="form-group">
+                <label for="to">想对谁说（可选）</label>
+                <input type="text" id="to" placeholder="TA的名字（可以匿名）">
+            </div>
+            <div class="form-group">
+                <label for="content">告白内容</label>
+                <textarea id="content" placeholder="把你想说的话都写在这里..."></textarea>
+            </div>
+            <button class="submit-btn" id="submitBtn">发送告白 💝</button>
+        </div>
+
+        <div class="wall-section">
+            <h2>💕 大家的告白 💕</h2>
+            <div class="wall-grid" id="wallGrid">
+                <div class="empty-state">
+                    <div class="emoji">🌸</div>
+                    <p>还没有人告白，快来做第一个吧~</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 生成星星背景
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.width = (Math.random() * 3 + 1) + 'px';
+            star.style.height = star.style.width;
+            starsContainer.appendChild(star);
+        }
+
+        // 本地存储
+        function getConfessions() {
+            return JSON.parse(localStorage.getItem('confessionWall')) || [];
+        }
+
+        function saveConfessions(list) {
+            localStorage.setItem('confessionWall', JSON.stringify(list));
+        }
+
+        // 格式化时间
+        function formatTime(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const hours = String(d.getHours()).padStart(2, '0');
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
+
+        // 渲染告白墙
+        function renderWall() {
+            const wallGrid = document.getElementById('wallGrid');
+            const list = getConfessions();
+
+            if (list.length === 0) {
+                wallGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="emoji">🌸</div>
+                        <p>还没有人告白，快来做第一个吧~</p>
+                    </div>
+                `;
+                return;
+            }
+
+            wallGrid.innerHTML = '';
+            list.reverse().forEach((item, index) => {
+                const note = document.createElement('div');
+                note.className = 'love-note';
+                note.style.animationDelay = (index * 0.1) + 's';
+                note.innerHTML = `
+                    <div class="note-header">
+                        <span class="note-author">${item.to ? '致 ' + item.to : '匿名告白'}</span>
+                        <span class="note-heart">❤️</span>
+                    </div>
+                    <div class="note-content">${item.content}</div>
+                    <div class="note-footer">
+                        <span class="note-time">${item.time}</span>
+                        <button class="like-btn" data-id="${item.id}">
+                            <span>💗</span>
+                            <span class="like-count">${item.likes || 0}</span>
+                        </button>
+                    </div>
+                `;
+                wallGrid.appendChild(note);
+
+                const likeBtn = note.querySelector('.like-btn');
+                likeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleLike(item.id);
+                    createFloatingHeart(e.clientX, e.clientY);
+                });
+            });
+        }
+
+        // 点赞功能
+        function handleLike(id) {
+            const list = getConfessions();
+            const item = list.find(i => i.id === id);
+            if (item) {
+                item.likes = (item.likes || 0) + 1;
+                saveConfessions(list);
+                renderWall();
+            }
+        }
+
+        // 飘动爱心动画
+        function createFloatingHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '💗';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        // 提交告白
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const nickname = document.getElementById('nickname').value.trim();
+            const to = document.getElementById('to').value.trim();
+            const content = document.getElementById('content').value.trim();
+
+            if (!nickname || !content) {
+                alert('请填写昵称和告白内容哦~');
+                return;
+            }
+
+            const newItem = {
+                id: Date.now(),
+                nickname,
+                to,
+                content,
+                time: formatTime(new Date()),
+                likes: 0
+            };
+
+            const list = getConfessions();
+            list.push(newItem);
+            saveConfessions(list);
+            renderWall();
+
+            document.getElementById('nickname').value = '';
+            document.getElementById('to').value = '';
+            document.getElementById('content').value = '';
+
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFloatingHeart(
+                        window.innerWidth / 2 + (Math.random() - 0.5) * 200,
+                        window.innerHeight / 2
+                    );
+                }, i * 100);
+            }
+
+            setTimeout(() => {
+                alert('告白发送成功！愿你的心意被温柔以待 💖');
+            }, 500);
+        });
+
+        renderWall();
+    </script>
+</body>
+</html>
